@@ -17,7 +17,13 @@ const store = async (req, res) => {
     res.status(200).json({ message: 'Success!'})
 }
 
+const destroy = async (req, res) => {
+    await Transaction.findOneAndDelete({_id: req.params.id})
+    res.status(200).json({ message: 'Ok'})
+}
+
 export default {
     store,
     index,
+    destroy,
 }
