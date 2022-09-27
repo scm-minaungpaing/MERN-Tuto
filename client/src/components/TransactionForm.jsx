@@ -7,10 +7,10 @@ import { Button, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
-export default function BasicCard({fetchTransactions}) {  
+export default function BasicCard({fetchTransactions, editTransaction}) {  
   const initialForm = {
     amount: 0,
     description: "",
@@ -18,6 +18,12 @@ export default function BasicCard({fetchTransactions}) {
   }
   
   const [form, setForm] = useState(initialForm)
+  
+  useEffect( () => {
+    if (Object.keys(editTransaction).length !== 0) {
+      setForm(editTransaction) 
+    }
+  }, [editTransaction])
 
   const handleInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -25,15 +31,28 @@ export default function BasicCard({fetchTransactions}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const res = await fetch('http://localhost:5000/transaction', {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: { "content-type": "application/json", }
-    })
+
+    const res = (Object.keys(editTransaction).length !== 0) ? await updateTrans() : await createTrans()
     if (res.status === 200) {
       setForm(initialForm)
       fetchTransactions()
     }
+  }
+
+  const createTrans = async () => {
+    return await fetch('http://localhost:5000/transaction', {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: { "content-type": "application/json", }
+    })
+  }
+
+  const updateTrans = async () => {
+    return await fetch(`http://localhost:5000/transaction/${editTransaction._id}`, {
+      method: "PATCH",
+      body: JSON.stringify(form),
+      headers: { "content-type": "application/json", }
+    })
   }
 
   const handelChange = (value) => {
@@ -75,7 +94,9 @@ export default function BasicCard({fetchTransactions}) {
               renderInput={(params) => <TextField sx={{marginRight: 5}} size="small" {...params} />}
             />
           </LocalizationProvider>
-          <Button type='submit' variant="contained">Submit</Button>
+          <Button type='submit' variant="contained" disabled={form.amount === 0}>
+            { Object.keys(editTransaction).length === 0 ? 'Submit' : 'Update' } 
+          </Button>
         </form>
       </CardContent>
     </Card>

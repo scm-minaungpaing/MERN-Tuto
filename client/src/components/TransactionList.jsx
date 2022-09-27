@@ -10,8 +10,9 @@ import Typography from '@mui/material/Typography';
 import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import { IconButton } from '@mui/material';
+import dayjs from 'dayjs';
 
-export default function TransactionList({transactions, fetchTransactions}) {
+export default function TransactionList({transactions, fetchTransactions, setEditTransaction}) {
     const removeTrans = async (id) => {
         if(!window.confirm('Are you sure to delete?')) return
         const res = await fetch(`http://localhost:5000/transaction/${id}`, {
@@ -21,6 +22,9 @@ export default function TransactionList({transactions, fetchTransactions}) {
             window.alert("Deleted Successfully!")
             fetchTransactions()
         }
+    }
+    const formatDate = (date) => {
+        return dayjs(date).format('DD/MM/YYYY')
     }
 
     return (
@@ -46,9 +50,11 @@ export default function TransactionList({transactions, fetchTransactions}) {
                             {row.amount}
                         </TableCell>
                         <TableCell align="left">{row.description}</TableCell>
-                        <TableCell align="center">{row.date}</TableCell>
+                        <TableCell align="center">{formatDate(row.date)}</TableCell>
                         <TableCell align="center">
-                            <IconButton style={{color: '#2196f3', border:'1px solid #2196f3'}}>
+                            <IconButton 
+                                style={{color: '#2196f3', border:'1px solid #2196f3'}}
+                                onClick={() => setEditTransaction(row)}>
                                 <EditSharpIcon/>
                             </IconButton>                     
                             <IconButton 

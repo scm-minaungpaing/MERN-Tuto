@@ -6,6 +6,7 @@ import TransactionList from "./components/TransactionList";
 
 function App() {  
   const [transaction, setTransaction] = useState([])
+  const [editTransaction, setEditTransaction] = useState([])
 
 
   useEffect(() => {
@@ -24,10 +25,12 @@ function App() {
       <Container sx={{marginBottom: 10}}>
         <TransactionForm 
           fetchTransactions={fetchTransactions}
+          editTransaction={editTransaction}
         />
         <TransactionList 
           transactions={transaction} 
           fetchTransactions={fetchTransactions}
+          setEditTransaction={setEditTransaction}
         />
       </Container>
     </div>
