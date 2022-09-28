@@ -22,8 +22,14 @@ const destroy = async (req, res) => {
     res.status(200).json({ message: 'Ok'})
 }
 
+const patch = async (req, res) => {
+    await Transaction.findOneAndUpdate({_id: req.params.id}, {$set: req.body})
+    res.status(200).json({ message: "Ok"})
+}
+
 export default {
     store,
     index,
     destroy,
+    patch,
 }
