@@ -22,8 +22,8 @@ export default function Register() {
       email: data.get("email"),
       password: data.get("password"),
     };
-
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
+    
+    const res = await fetch(`http://localhost:5000/auth/register`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -36,7 +36,7 @@ export default function Register() {
   };
 
   return (
-    <Container>
+    <Container maxWidth='xs'>
       <Box
         sx={{
           marginTop: 8,
