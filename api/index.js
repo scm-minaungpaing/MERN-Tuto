@@ -12,6 +12,7 @@ app.use(cors())
 
 
 import transactionRoutes from './routes/transaction.js'
+import authRoutes from './routes/auth.js'
 
 const PORT = process.env.PORT || 5000
 
@@ -22,6 +23,7 @@ connect()
 
 
 app.use('/transaction', transactionRoutes)
+app.use('/auth', authRoutes)
 
 
 
