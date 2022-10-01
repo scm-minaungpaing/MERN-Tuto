@@ -40,7 +40,7 @@ export default function BasicCard({fetchTransactions, editTransaction}) {
   }
 
   const createTrans = async () => {
-    return await fetch('http://localhost:5000/transaction', {
+    return await fetch(`${import.meta.env.VITE_API_KEY}/transaction`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: { "content-type": "application/json", }
@@ -48,7 +48,7 @@ export default function BasicCard({fetchTransactions, editTransaction}) {
   }
 
   const updateTrans = async () => {
-    return await fetch(`http://localhost:5000/transaction/${editTransaction._id}`, {
+    return await fetch(`${import.meta.env.VITE_API_KEY}/transaction/${editTransaction._id}`, {
       method: "PATCH",
       body: JSON.stringify(form),
       headers: { "content-type": "application/json", }

@@ -9,11 +9,28 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
-   await console.log('hello')
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const form = {
+      email: data.get("email"),
+      password: data.get('password')
+    }
+    const res = await fetch(`${import.meta.env.VITE_API_KEY}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: { "content-type": "application/json"}
+    })
+ 
+    if (res.status === 200) {
+      const {token} = await res.json()
+      Cookies.set('token', token)
+      navigate('/')
+    }
   };
 
   return (

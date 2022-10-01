@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 export default function TransactionList({transactions, fetchTransactions, setEditTransaction}) {
     const removeTrans = async (id) => {
         if(!window.confirm('Are you sure to delete?')) return
-        const res = await fetch(`http://localhost:5000/transaction/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_KEY}/transaction/${id}`, {
             method: "DELETE"
         })
         if (res.status === 200) {

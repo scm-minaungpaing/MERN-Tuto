@@ -23,7 +23,7 @@ export default function Register() {
       password: data.get("password"),
     };
     
-    const res = await fetch(`http://localhost:5000/auth/register`, {
+    const res = await fetch(`${import.meta.env.VITE_API_KEY}/auth/register`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Container } from "@mui/material";
 import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
+import Cookies from 'js-cookie';
 
 const Home = () => {
   const [transaction, setTransaction] = useState([])
@@ -13,7 +14,12 @@ const Home = () => {
   }, [])
 
   const fetchTransactions = async () => {
-    const res = await fetch('http://localhost:5000/transaction')
+    const token = Cookies.get('token')
+    const res = await fetch(`${import.meta.env.VITE_API_KEY}/transaction`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
     const {data} = await res.json()
     setTransaction(data)
   }
