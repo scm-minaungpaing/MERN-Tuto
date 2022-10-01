@@ -3,6 +3,12 @@ import App from './App'
 import Login from './pages/auth/Login';
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
+import Cookies from "js-cookie";
+import Guest from "./utils/Guest";
+import CheckAuth from "./utils/CheckAuth";
+
+
+const token = Cookies.get('token')
 
 const router = createBrowserRouter([
   {
@@ -10,15 +16,24 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home/>
+        element: 
+        <CheckAuth>
+          <Home/>
+        </CheckAuth>
       },
       {
         path: "/login",
-        element: <Login/>
+        element: 
+        <Guest>
+          <Login/> 
+        </Guest>
       },
       {
         path: "/register",
-        element: <Register/>
+        element: 
+        <Guest>
+          <Register/>
+        </Guest>
       }
     ]
   },  

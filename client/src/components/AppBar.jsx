@@ -11,6 +11,8 @@ import Cookies from 'js-cookie';
 
 export default function ButtonAppBar() {
   const navigate = useNavigate()
+  const token = Cookies.get('token')
+
   const logout = () => {
     Cookies.remove('token')
     navigate('/login')
@@ -34,13 +36,16 @@ export default function ButtonAppBar() {
               HOME
             </Link>
           </Typography>
+          {!token ? 
           <Link to="/login" className='text-white'>
             <Button color="inherit">Login</Button>
           </Link>
+          : null }
+          {!token ? 
           <Link to="/register" className='text-white'>
             <Button color="inherit">Register</Button>
-          </Link>
-          <Button onClick={logout} color="inherit">Logout</Button>
+          </Link> : null}
+          {token ? <Button onClick={logout} color="inherit">Logout</Button> : null}
         </Toolbar>
       </AppBar>
     </Box>
