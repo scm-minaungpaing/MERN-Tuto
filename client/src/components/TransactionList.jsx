@@ -11,12 +11,17 @@ import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import { IconButton } from '@mui/material';
 import dayjs from 'dayjs';
+import Cookies from 'js-cookie';
 
 export default function TransactionList({transactions, fetchTransactions, setEditTransaction}) {
+    const token = Cookies.get('token')
     const removeTrans = async (id) => {
         if(!window.confirm('Are you sure to delete?')) return
         const res = await fetch(`${import.meta.env.VITE_API_KEY}/transaction/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { 
+                Authorization: `Bearer ${token}`
+              }
         })
         if (res.status === 200) {
             window.alert("Deleted Successfully!")

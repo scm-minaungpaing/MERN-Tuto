@@ -8,9 +8,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useState, useEffect } from 'react';
-
+import Cookies from 'js-cookie';
 
 export default function BasicCard({fetchTransactions, editTransaction}) {  
+  const token = Cookies.get('token');
   const initialForm = {
     amount: 0,
     description: "",
@@ -43,7 +44,10 @@ export default function BasicCard({fetchTransactions, editTransaction}) {
     return await fetch(`${import.meta.env.VITE_API_KEY}/transaction`, {
       method: "POST",
       body: JSON.stringify(form),
-      headers: { "content-type": "application/json", }
+      headers: { 
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
     })
   }
 
@@ -51,7 +55,10 @@ export default function BasicCard({fetchTransactions, editTransaction}) {
     return await fetch(`${import.meta.env.VITE_API_KEY}/transaction/${editTransaction._id}`, {
       method: "PATCH",
       body: JSON.stringify(form),
-      headers: { "content-type": "application/json", }
+      headers: { 
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
     })
   }
 

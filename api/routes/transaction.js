@@ -6,8 +6,8 @@ import transactionController from '../controllers/transaction.js'
 const router = express.Router()
 
 router.get('/', passport.authenticate('jwt', { session: false }), transactionController.index)
-router.post('/', transactionController.store)
-router.delete('/:id', transactionController.destroy)
-router.patch('/:id', transactionController.patch)
+router.post('/', passport.authenticate('jwt', { session: false }), transactionController.store)
+router.delete('/:id', passport.authenticate('jwt', { session: false }),  transactionController.destroy)
+router.patch('/:id', passport.authenticate('jwt', { session: false }), transactionController.patch)
 
 export default router
