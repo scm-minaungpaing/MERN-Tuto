@@ -10,8 +10,11 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../store/authSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,8 +30,9 @@ export default function Login() {
     })
  
     if (res.status === 200) {
-      const {token} = await res.json()
+      const {token, user} = await res.json()
       Cookies.set('token', token)
+      dispatch(getUser(user))
       navigate('/')
     }
   };

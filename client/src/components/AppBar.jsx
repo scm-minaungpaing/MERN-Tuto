@@ -8,13 +8,18 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUser } from '../store/authSlice';
 
 export default function ButtonAppBar() {
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const token = Cookies.get('token')
 
   const logout = () => {
     Cookies.remove('token')
+    dispatch(clearUser())
     navigate('/login')
   }
 
@@ -36,16 +41,16 @@ export default function ButtonAppBar() {
               HOME
             </Link>
           </Typography>
-          {!token ? 
-          <Link to="/login" className='text-white'>
-            <Button color="inherit">Login</Button>
-          </Link>
-          : null }
-          {!token ? 
-          <Link to="/register" className='text-white'>
-            <Button color="inherit">Register</Button>
-          </Link> : null}
-          {token ? <Button onClick={logout} color="inherit">Logout</Button> : null}
+          {!isAuthenticated && (
+            <>
+              <Link to="/login" className='text-white'>
+                <Button color="inherit">Login</Button>
+              </Link>
+              <Link to="/register" className='text-white'>
+                <Button color="inherit">Register</Button>
+              </Link>
+            </>)}
+          {isAuthenticated && <Button onClick={logout} color="inherit">Logout</Button> }
         </Toolbar>
       </AppBar>
     </Box>

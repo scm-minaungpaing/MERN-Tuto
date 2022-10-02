@@ -1,8 +1,8 @@
-import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 export default function CheckAuth({ children }) {
-    const token = Cookies.get('token');
+    const auth = useSelector((state) => state.auth)
 
-    return token ? children : <Navigate to='/login' replace={true} />
+    return auth.isAuthenticated ? children : <Navigate to='/login' replace={true} />
 }

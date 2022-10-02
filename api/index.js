@@ -19,6 +19,7 @@ psssportConfig(passport)
 
 import transactionRoutes from './routes/transaction.js'
 import authRoutes from './routes/auth.js'
+import userRoutes from './routes/user.js'
 
 const PORT = process.env.PORT || 5000
 
@@ -30,6 +31,7 @@ connect()
 
 app.use('/transaction', transactionRoutes)
 app.use('/auth', authRoutes)
+app.use('/user', userRoutes)
 
 
 

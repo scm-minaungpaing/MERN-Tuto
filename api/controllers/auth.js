@@ -23,13 +23,13 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const {email, password} = req.body
 
-    const userExist = await User.findOne({ email })
-    if (!userExist) {
+    const user = await User.findOne({ email })
+    if (!user) {
         res.status(401).json({ message: "Your email or password is incorrect!"})
         return
     }
 
-    const matched = await bcrypt.compare(password, userExist.password)
+    const matched = await bcrypt.compare(password, user.password)
 
     if (!matched) {
         res.status(401).json({ message: "Your email or password is incorrect!"})
@@ -38,11 +38,11 @@ const login = async (req, res) => {
 
     const payload = {
         email,
-        _id: userExist._id
+        _id: user._id
     }
 
     const token = jwt.sign(payload, process.env.JWT_SECRET);
-    res.status(200).json({ message: "Logged in successfully!", token})
+    res.status(200).json({ message: "Logged in successfully!", token, user})
 }
 
 export default {
