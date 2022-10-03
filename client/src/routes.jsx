@@ -6,6 +6,7 @@ import Register from './pages/auth/Register';
 import Cookies from "js-cookie";
 import Guest from "./utils/Guest";
 import CheckAuth from "./utils/CheckAuth";
+import Category from "./pages/Category";
 
 
 const token = Cookies.get('token')
@@ -34,7 +35,14 @@ const router = createBrowserRouter([
         <Guest>
           <Register/>
         </Guest>
-      }
+      },
+      {
+        path: "/category",
+        element: 
+        <CheckAuth>
+          <Category/>
+        </CheckAuth>
+      },
     ]
   },  
 ]);

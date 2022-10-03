@@ -7,11 +7,13 @@ const index = async (req, res) => {
 }
 
 const store = async (req, res) => {
+    console.log(req.body)
     const {amount, description, date} = (req.body)
     const transaction = new Transaction({
         amount,
         description,
         user_id: req.user._id,
+        category_id: req.body.category_id,
         date
     })
     await transaction.save()
