@@ -7,7 +7,6 @@ const index = async (req, res) => {
 }
 
 const store = async (req, res) => {
-    console.log(req.body)
     const {amount, description, date} = (req.body)
     const transaction = new Transaction({
         amount,
